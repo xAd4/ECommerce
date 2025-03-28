@@ -11,6 +11,10 @@ class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * Retrieves a paginated list of products with their associated user and category.
+     * 
+     * @return JsonResponse JSON response containing the list of products or an error message.
      */
     public function index(): JsonResponse
     {
@@ -30,6 +34,12 @@ class ProductController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * Validates the request data and creates a new product in the database.
+     * The product image is stored in the "products/images" directory.
+     * 
+     * @param Request $request The HTTP request containing product data.
+     * @return JsonResponse JSON response indicating success or failure.
      */
     public function store(Request $request): JsonResponse
     {
@@ -69,6 +79,11 @@ class ProductController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * Retrieves a single product by its ID, including its associated user and category.
+     * 
+     * @param string $id The ID of the product to retrieve.
+     * @return JsonResponse JSON response containing the product data or an error message.
      */
     public function show(string $id): JsonResponse
     {
@@ -88,6 +103,13 @@ class ProductController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * Validates the request data and updates the specified product in the database.
+     * If a new image is provided, the old image is deleted, and the new one is stored.
+     * 
+     * @param Request $request The HTTP request containing updated product data.
+     * @param string $id The ID of the product to update.
+     * @return JsonResponse JSON response indicating success or failure.
      */
     public function update(Request $request, string $id): JsonResponse
     {
@@ -128,6 +150,11 @@ class ProductController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * Deletes the specified product from the database.
+     * 
+     * @param string $id The ID of the product to delete.
+     * @return JsonResponse JSON response indicating success or failure.
      */
     public function destroy(string $id): JsonResponse
     {

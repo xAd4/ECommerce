@@ -10,6 +10,10 @@ class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
+     * Retrieves all categories, separating them into available and unavailable.
+     * 
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -32,6 +36,11 @@ class CategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
+     * Validates the request and creates a new category.
+     * 
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
     {
@@ -59,6 +68,11 @@ class CategoryController extends Controller
 
     /**
      * Display the specified resource.
+     * 
+     * Retrieves a single category by its ID.
+     * 
+     * @param string $id
+     * @return JsonResponse
      */
     public function show(string $id): JsonResponse
     {
@@ -78,6 +92,12 @@ class CategoryController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * 
+     * Validates the request and updates the category with the given ID.
+     * 
+     * @param Request $request
+     * @param string $id
+     * @return JsonResponse
      */
     public function update(Request $request, string $id): JsonResponse
     {
@@ -106,6 +126,11 @@ class CategoryController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * 
+     * Marks the category as unavailable instead of deleting it.
+     * 
+     * @param string $id
+     * @return JsonResponse
      */
     public function destroy(string $id): JsonResponse
     {

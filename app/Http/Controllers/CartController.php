@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    /**
+     * Display the user's cart.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function show(Request $request): JsonResponse
     {
         try {
@@ -17,7 +23,7 @@ class CartController extends Controller
             if (!$cart) {
                 return response()->json([
                     "ok" => true,
-                    "message" => "Cart void",
+                    "message" => "Cart is empty",
                     "products" => []
                 ], 200);
             }
@@ -31,7 +37,6 @@ class CartController extends Controller
                     "products" => $products
                 ]
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 "ok" => false,
@@ -40,6 +45,13 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Add a product to the user's cart.
+     *
+     * @param Request $request
+     * @param string $id Product ID
+     * @return JsonResponse
+     */
     public function addProduct(Request $request, string $id): JsonResponse
     {
         $request->validate([
@@ -69,7 +81,6 @@ class CartController extends Controller
                     "products" => $cart->products()->with('category')->get()
                 ]
             ], 201);
-
         } catch (\Throwable $th) {
             return response()->json([
                 "ok" => false,
@@ -78,20 +89,26 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Remove a product from the user's cart.
+     *
+     * @param Request $request
+     * @param string $id Product ID
+     * @return JsonResponse
+     */
     public function removeProduct(Request $request, string $id): JsonResponse
     {
         try {
             $cart = Cart::where("user_id", $request->user()->id)->first();
-            
+
             if ($cart) {
                 $cart->products()->detach($id);
             }
 
             return response()->json([
                 "ok" => true,
-                "message" => "Producto deleted to cart",
+                "message" => "Product removed from cart"
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 "ok" => false,
@@ -100,20 +117,25 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Clear all products from the user's cart.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function clear(Request $request): JsonResponse
     {
         try {
             $cart = Cart::where("user_id", $request->user()->id)->first();
-            
+
             if ($cart) {
                 $cart->products()->detach();
             }
 
             return response()->json([
                 "ok" => true,
-                "message" => "Cart cleared",
+                "message" => "Cart cleared"
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 "ok" => false,
